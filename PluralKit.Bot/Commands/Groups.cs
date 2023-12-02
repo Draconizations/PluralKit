@@ -563,6 +563,27 @@ public class Groups
             await SetLevel(ctx.PopGroupPrivacySubject(), ctx.PopPrivacyLevel());
     }
 
+    public async Task UpdateId(Context ctx, PKGroup target)
+    {
+        ctx.CheckSystem().CheckOwnGroup(target);
+
+        var newHid = ctx.PopArgument();
+        if (!Regex.IsMatch(newHid, "^[a-z]{5}$"))
+            throw new PKError($"Invalid new group ID `{newHid}`.");
+
+        var existingGroup = await ctx.Repository.GetGroupByHid(newHid);
+        if (existingGroup != null)
+            throw new PKError($"Another group already exists with ID `{newHid}`.");
+
+        if (!await ctx.PromptYesNo($"Change group ID of **{target.Name}** (`{target.Hid}`) to `{newHid}`?",
+            "Change"
+        ))
+            throw new PKError("ID change cancelled.");
+
+        await ctx.Repository.UpdateGroup(target.Id, new GroupPatch { Hid = newHid });
+        await ctx.Reply($"{Emojis.Success} Group ID updated (`{target.Hid}` -> `{newHid}`).");
+    }
+
     public async Task DeleteGroup(Context ctx, PKGroup target)
     {
         ctx.CheckOwnGroup(target);

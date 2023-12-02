@@ -807,6 +807,28 @@ public class MemberEdit
             await SetLevel(ctx.PopMemberPrivacySubject(), ctx.PopPrivacyLevel());
     }
 
+        public async Task UpdateId(Context ctx, PKMember target)
+    {
+        ctx.CheckSystem().CheckOwnMember(target);
+
+        var newHid = ctx.PopArgument();
+        if (!Regex.IsMatch(newHid, "^[a-z]{5}$"))
+            throw new PKError($"Invalid new member ID `{newHid}`.");
+
+        var existingMember = await ctx.Repository.GetMemberByHid(newHid);
+        if (existingMember != null)
+            throw new PKError($"Another member already exists with ID `{newHid}`.");
+
+        if (!await ctx.PromptYesNo(
+            $"Change member ID of **{target.NameFor(LookupContext.ByOwner)}** (`{target.Hid}`) to `{newHid}`?",
+            "Change"
+        ))
+            throw new PKError("ID change cancelled.");
+
+        await ctx.Repository.UpdateMember(target.Id, new MemberPatch { Hid = newHid });
+        await ctx.Reply($"{Emojis.Success} Member ID updated (`{target.Hid}` -> `{newHid}`).");
+    }
+
     public async Task Delete(Context ctx, PKMember target)
     {
         ctx.CheckSystem().CheckOwnMember(target);

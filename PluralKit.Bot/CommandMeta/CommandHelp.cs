@@ -14,6 +14,7 @@ public partial class CommandTree
     public static Command SystemAvatar = new Command("system icon", "system [system] icon [url|@mention]", "Changes your system's icon");
     public static Command SystemServerAvatar = new Command("system serveravatar", "system [system] serveravatar [tag]", "Changes your system's icon in the current server");
     public static Command SystemBannerImage = new Command("system banner", "system [system] banner [url]", "Set the system's banner image");
+    public static Command SystemCustomId = new Command("system custom id", "system customid <new id>", "Changes your system's short id.");
     public static Command SystemDelete = new Command("system delete", "system [system] delete", "Deletes your system");
     public static Command SystemProxy = new Command("system proxy", "system proxy [server id] [on|off]", "Enables or disables message proxying in a specific server");
     public static Command SystemList = new Command("system list", "system [system] list [full]", "Lists a system's members");
@@ -43,6 +44,7 @@ public partial class CommandTree
     public static Command MemberColor = new Command("member color", "member <member> color [color]", "Changes a member's color");
     public static Command MemberBirthday = new Command("member birthday", "member <member> birthday [birthday]", "Changes a member's birthday");
     public static Command MemberProxy = new Command("member proxy", "member <member> proxy [add|remove] [example proxy]", "Changes, adds, or removes a member's proxy tags");
+    public static Command MemberCustomId = new Command("member custom id", "member <member> customid <new id>", "Changes a member's short id.");
     public static Command MemberDelete = new Command("member delete", "member <member> delete", "Deletes a member");
     public static Command MemberBannerImage = new Command("member banner", "member <member> banner [url]", "Set the member's banner image");
     public static Command MemberAvatar = new Command("member avatar", "member <member> avatar [url|@mention]", "Changes a member's avatar");
@@ -68,6 +70,7 @@ public partial class CommandTree
     public static Command GroupDesc = new Command("group description", "group <group> description [description]", "Changes a group's description");
     public static Command GroupColor = new Command("group color", "group <group> color [color]", "Changes a group's color");
     public static Command GroupAdd = new Command("group add", "group <group> add <member> [member 2] [member 3...]", "Adds one or more members to a group");
+    public static Command GroupCustomId = new Command("group custom id", "group <group> customid <new id>", "Changes a group's short id.");
     public static Command GroupRemove = new Command("group remove", "group <group> remove <member> [member 2] [member 3...]", "Removes one or more members from a group");
     public static Command GroupId = new Command("group id", "group [group] id", "Prints a group's id.");
     public static Command GroupPrivacy = new Command("group privacy", "group <group> privacy <name|description|icon|metadata|visibility|all> <public|private>", "Changes a group's privacy settings");

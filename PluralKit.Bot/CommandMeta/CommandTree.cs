@@ -162,6 +162,8 @@ public partial class CommandTree
             await ctx.Execute<System>(SystemNew, m => m.New(ctx));
         else if (ctx.Match("commands", "help"))
             await PrintCommandList(ctx, "systems", SystemCommands);
+        else if (ctx.Match("customid", "updateid", "changeid", "uid", "cid"))
+            await ctx.Execute<SystemEdit>(SystemCustomId, m => m.UpdateId(ctx));
 
         // these are deprecated (and not accessible by other users anyway), let's leave them out of new parsing
         else if (ctx.Match("timezone", "tz"))
@@ -344,6 +346,8 @@ public partial class CommandTree
             await ctx.Execute<MemberEdit>(MemberServerKeepProxy, m => m.ServerKeepProxy(ctx, target));
         else if (ctx.Match("id"))
             await ctx.Execute<Member>(MemberId, m => m.DisplayId(ctx, target));
+        else if (ctx.Match("customid", "updateid", "changeid", "uid", "cid"))
+            await ctx.Execute<MemberEdit>(MemberCustomId, m => m.UpdateId(ctx, target));
         else if (ctx.Match("privacy"))
             await ctx.Execute<MemberEdit>(MemberPrivacy, m => m.Privacy(ctx, target, null));
         else if (ctx.Match("private", "hidden", "hide"))
@@ -406,6 +410,8 @@ public partial class CommandTree
                 await ctx.Execute<Groups>(GroupColor, g => g.GroupColor(ctx, target));
             else if (ctx.Match("id"))
                 await ctx.Execute<Groups>(GroupId, g => g.DisplayId(ctx, target));
+            else if (ctx.Match("customid", "updateid", "changeid", "uid", "cid"))
+                await ctx.Execute<Groups>(MemberCustomId, m => m.UpdateId(ctx, target));
             else if (!ctx.HasNext())
                 await ctx.Execute<Groups>(GroupInfo, g => g.ShowGroupCard(ctx, target));
             else

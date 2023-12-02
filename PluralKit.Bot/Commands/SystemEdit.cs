@@ -659,6 +659,25 @@ public class SystemEdit
         }
     }
 
+    public async Task UpdateId(Context ctx)
+    {
+        ctx.CheckSystem();
+
+        var newHid = ctx.PopArgument();
+        if (!Regex.IsMatch(newHid, "^[a-z]{5}$"))
+            throw new PKError($"Invalid new system ID `{newHid}`.");
+
+        var existingSystem = await ctx.Repository.GetSystemByHid(newHid);
+        if (existingSystem != null)
+            throw new PKError($"Another system already exists with ID `{newHid}`.");
+
+        if (!await ctx.PromptYesNo($"Change your system ID (`{ctx.System.Hid}`) to `{newHid}`?", "Change"))
+            throw new PKError("ID change cancelled.");
+
+        await ctx.Repository.UpdateSystem(ctx.System.Id, new SystemPatch { Hid = newHid });
+        await ctx.Reply($"{Emojis.Success} System ID updated (`{ctx.System.Hid}` -> `{newHid}`).");
+    }
+
     public async Task Delete(Context ctx, PKSystem target)
     {
         ctx.CheckSystem().CheckOwnSystem(target);
