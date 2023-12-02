@@ -34,6 +34,12 @@ public class Fun
     public Task Sus(Context ctx) =>
         ctx.Reply("\U0001F4EE");
 
+    public Task Craft(Context ctx) =>
+        ctx.Reply("<a:Minecraft:1105786739232096266>");
+
+    public Task Donalds(Context ctx) =>
+        ctx.Reply("https://media.discordapp.net/attachments/805729524682981398/1105788033124544522/mcdonalds.png");
+
     public Task Error(Context ctx)
     {
         if (ctx.Match("message"))

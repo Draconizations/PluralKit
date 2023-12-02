@@ -88,6 +88,8 @@ public partial class CommandTree
         if (ctx.Match("flash")) return ctx.Execute<Fun>(null, m => m.Flash(ctx));
         if (ctx.Match("rool")) return ctx.Execute<Fun>(null, m => m.Rool(ctx));
         if (ctx.Match("sus")) return ctx.Execute<Fun>(null, m => m.Sus(ctx));
+        if (ctx.Match("raft", "craft")) return ctx.Execute<Fun>(null, m => m.Craft(ctx));
+        if (ctx.Match("donalds", "donald")) return ctx.Execute<Fun>(null, m => m.Donalds(ctx));
         if (ctx.Match("error")) return ctx.Execute<Fun>(null, m => m.Error(ctx));
         if (ctx.Match("stats")) return ctx.Execute<Misc>(null, m => m.Stats(ctx));
         if (ctx.Match("permcheck"))
