@@ -807,7 +807,7 @@ public class MemberEdit
             await SetLevel(ctx.PopMemberPrivacySubject(), ctx.PopPrivacyLevel());
     }
 
-        public async Task UpdateId(Context ctx, PKMember target)
+    public async Task UpdateId(Context ctx, PKMember target)
     {
         ctx.CheckSystem().CheckOwnMember(target);
 
