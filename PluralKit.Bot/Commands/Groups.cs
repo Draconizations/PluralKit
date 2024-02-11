@@ -44,7 +44,7 @@ public class Groups
         var groupLimit = ctx.Config.GroupLimitOverride ?? Limits.MaxGroupCount;
         if (existingGroupCount >= groupLimit)
             throw new PKError(
-                $"System has reached the maximum number of groups ({groupLimit}). Please delete unused groups first in order to create new ones.");
+                $"System has reached the maximum number of groups ({groupLimit}). If you need to add more groups, you can either delete existing groups, or ask for your limit to be raised in the PluralKit support server: <https://discord.gg/PczBt78>");
 
         // Warn if there's already a group by this name
         var existingGroup = await ctx.Repository.GetGroupByName(ctx.System.Id, groupName);
@@ -93,7 +93,7 @@ public class Groups
 
         if (existingGroupCount >= Limits.WarnThreshold(groupLimit))
             await ctx.Reply(
-                $"{Emojis.Warn} You are approaching the per-system group limit ({existingGroupCount} / {groupLimit} groups). Please review your group list for unused or duplicate groups.");
+                $"{Emojis.Warn} You are approaching the per-system group limit ({existingGroupCount} / {groupLimit} groups). Once you reach this limit, you will be unable to create new groups until existing groups are deleted, or you can ask for your limit to be raised in the PluralKit support server: <https://discord.gg/PczBt78>");
     }
 
     public async Task RenameGroup(Context ctx, PKGroup target)
@@ -263,7 +263,7 @@ public class Groups
 
             await AvatarUtils.VerifyAvatarOrThrow(_client, img.Url);
 
-            await ctx.Repository.UpdateGroup(target.Id, new GroupPatch { Icon = img.Url });
+            await ctx.Repository.UpdateGroup(target.Id, new GroupPatch { Icon = img.CleanUrl ?? img.Url });
 
             var msg = img.Source switch
             {
@@ -300,7 +300,7 @@ public class Groups
             else
             {
                 throw new PKSyntaxError(
-                    "This group does not have an icon set. Set one by attaching an image to this command, or by passing an image URL or @mention.");
+                    "This group does not have an avatar set. Set one by attaching an image to this command, or by passing an image URL or @mention.");
             }
         }
 
@@ -328,7 +328,7 @@ public class Groups
 
             await AvatarUtils.VerifyAvatarOrThrow(_client, img.Url, true);
 
-            await ctx.Repository.UpdateGroup(target.Id, new GroupPatch { BannerImage = img.Url });
+            await ctx.Repository.UpdateGroup(target.Id, new GroupPatch { BannerImage = img.CleanUrl ?? img.Url });
 
             var msg = img.Source switch
             {
@@ -364,7 +364,7 @@ public class Groups
             else
             {
                 throw new PKSyntaxError(
-                    "This group does not have a banner image set. Set one by attaching an image to this command, or by passing an image URL or @mention.");
+                    "This group does not have a banner image set. Set one by attaching an image to this command, or by passing an image URL.");
             }
         }
 

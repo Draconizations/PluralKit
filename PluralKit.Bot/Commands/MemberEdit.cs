@@ -45,7 +45,7 @@ public class MemberEdit
         await ctx.Reply($"{Emojis.Success} Member renamed (using {newName.Length}/{Limits.MaxMemberNameLength} characters).");
         if (newName.Contains(" "))
             await ctx.Reply(
-                $"{Emojis.Note} Note that this member's name now contains spaces. You will need to surround it with \"double quotes\" when using commands referring to it.");
+                $"{Emojis.Note} Note that this member's name now contains spaces. You will need to surround it with \"double quotes\" when using commands referring to it, or just use the member's 5-character ID (which is `{target.Hid}`).");
         if (target.DisplayName != null)
             await ctx.Reply(
                 $"{Emojis.Note} Note that this member has a display name set ({target.DisplayName}), and will be proxied using that name instead.");
@@ -182,7 +182,7 @@ public class MemberEdit
         {
             await AvatarUtils.VerifyAvatarOrThrow(_client, img.Url, true);
 
-            await ctx.Repository.UpdateMember(target.Id, new MemberPatch { BannerImage = img.Url });
+            await ctx.Repository.UpdateMember(target.Id, new MemberPatch { BannerImage = img.CleanUrl ?? img.Url });
 
             var msg = img.Source switch
             {
@@ -213,7 +213,7 @@ public class MemberEdit
             else
             {
                 throw new PKSyntaxError(
-                    "This member does not have a banner image set. Set one by attaching an image to this command, or by passing an image URL or @mention.");
+                    "This member does not have a banner image set. Set one by attaching an image to this command, or by passing an image URL.");
             }
         }
 
